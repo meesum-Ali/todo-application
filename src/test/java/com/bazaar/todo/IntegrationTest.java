@@ -1,9 +1,8 @@
 package com.bazaar.todo;
 
-import com.bazaar.todo.dto.TodoListItemDto;
+import com.bazaar.todo.dto.GetTodoListItemRequestDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -20,7 +19,7 @@ public class IntegrationTest {
 
     @Test
     public void getTodoListItem_returnsTodoListItems() throws Exception {
-        ResponseEntity<TodoListItemDto> response = restTemplate.getForEntity("/v1/todo-list-items", TodoListItemDto.class);
+        ResponseEntity<GetTodoListItemRequestDto> response = restTemplate.getForEntity("/v1/todo-list-items", GetTodoListItemRequestDto.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(response.getBody().getId()).isEqualTo(1);
         Assertions.assertThat(response.getBody().getTitle()).isEqualTo("ABC");

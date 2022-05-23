@@ -1,10 +1,10 @@
 package com.bazaar.todo.dto;
 
-public class TodoListItemDto {
+public class GetTodoListItemRequestDto {
     private int id;
     private String title;
 
-    public TodoListItemDto(int id, String title) {
+    public GetTodoListItemRequestDto(int id, String title) {
         this.id = id;
         this.title = title;
     }

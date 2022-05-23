@@ -12,8 +12,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(TodoListItem.class)
-class TodoListItemTest {
+@WebMvcTest(TodoListItemController.class)
+class TodoListItemControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
