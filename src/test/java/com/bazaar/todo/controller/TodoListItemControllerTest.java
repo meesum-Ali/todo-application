@@ -1,5 +1,6 @@
 package com.bazaar.todo.controller;
 
+import com.bazaar.todo.dto.GetTodoListItemsDto;
 import com.bazaar.todo.dto.TodoListItemDto;
 import com.bazaar.todo.exceptions.TodoListItemNotFoundException;
 import com.bazaar.todo.service.TodoListItemService;
@@ -11,6 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -31,7 +35,7 @@ class TodoListItemControllerTest {
     void getTodoListItem() throws Exception {
         //arrange
 
-            TodoListItemDto todoListItemDto = new TodoListItemDto(1L,"ABC");
+        TodoListItemDto todoListItemDto = new TodoListItemDto(1L, "ABC");
 
         given(todoListItemService.getTodoListItem(anyLong())).willReturn(todoListItemDto);
 
@@ -40,6 +44,20 @@ class TodoListItemControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1))
                 .andExpect(jsonPath("title").value("ABC"));
+    }
+
+    @Test
+    void getTodoListItems_returnsTodoListItems() throws Exception {
+
+        GetTodoListItemsDto items = new GetTodoListItemsDto();
+        List<TodoListItemDto> testItemsList = new ArrayList<TodoListItemDto>();
+        TodoListItemDto todoListItemDto = new TodoListItemDto(1L, "ABC");
+        testItemsList.add(todoListItemDto);
+        items.setItems(testItemsList);
+        given(todoListItemService.getTodoListItems()).willReturn(items);
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/todo-list-items"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("items").value(testItemsList));
     }
 
     @Test

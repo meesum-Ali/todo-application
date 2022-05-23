@@ -1,5 +1,6 @@
 package com.bazaar.todo.service;
 
+import com.bazaar.todo.dto.GetTodoListItemsDto;
 import com.bazaar.todo.dto.TodoListItemDto;
 import com.bazaar.todo.entity.TodoListItem;
 import com.bazaar.todo.exceptions.TodoListItemNotFoundException;
@@ -27,7 +28,14 @@ public class TodoListItemService {
             throw new TodoListItemNotFoundException();
         }
 
-        TodoListItemDto todoListItemDto = new TodoListItemDto(todoListItem.get().getId(),todoListItem.get().getTitle());
+        TodoListItemDto todoListItemDto = new TodoListItemDto(todoListItem.get().getId(),
+                todoListItem.get().getTitle());
         return todoListItemDto;
+    }
+
+    public GetTodoListItemsDto getTodoListItems() {
+        Iterable<TodoListItem> todoListItems = todoListItemRepositry.findAll();
+
+        return null;
     }
 }
