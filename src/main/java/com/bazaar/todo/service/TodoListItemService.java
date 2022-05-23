@@ -8,6 +8,8 @@ import com.bazaar.todo.repository.TodoListItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 @Service
 public class TodoListItemService {
@@ -34,8 +36,14 @@ public class TodoListItemService {
     }
 
     public GetTodoListItemsDto getTodoListItems() {
-        Iterable<TodoListItem> todoListItems = todoListItemRepositry.findAll();
+        List<TodoListItem> todoListItems = todoListItemRepositry.findAll();
+        //mapping logic
 
-        return null;
+        GetTodoListItemsDto returnObject = new GetTodoListItemsDto();
+        List<TodoListItemDto> todoListItemDtos = new ArrayList<>();
+        todoListItems.forEach(todoListItem -> todoListItemDtos.add(new TodoListItemDto(todoListItem.getId(),todoListItem.getTitle())));
+        returnObject.setItems(todoListItemDtos);
+
+        return returnObject;
     }
 }

@@ -24,18 +24,18 @@ public class IntegrationTest {
 
     @Test
     public void getTodoListItem_returnsTodoListItem() throws Exception {
-        ResponseEntity<TodoListItemDto> response = restTemplate.getForEntity("/v1/todo-list-items", TodoListItemDto.class);
+        ResponseEntity<TodoListItemDto> response = restTemplate.getForEntity("/v1/todo-list-items/1", TodoListItemDto.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(response.getBody().getId()).isEqualTo(1);
         Assertions.assertThat(response.getBody().getTitle()).isEqualTo("ABC");
     }
 
     @Test
-    public void getTodoListItem_returnsTodoListItems() throws Exception {
+    public void getTodoListItems_returnsAllTodoListItems() throws Exception {
         ResponseEntity<GetTodoListItemsDto> response = restTemplate.getForEntity("/v1/todo-list-items", GetTodoListItemsDto.class);
+
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        List<TodoListItemDto> items = new ArrayList<TodoListItemDto>();
-        Assertions.assertThat(response.getBody().getItems()).isEqualTo(items);
+        Assertions.assertThat(response.getBody().getItems().size()).isGreaterThan(0);
     }
 
     @Test

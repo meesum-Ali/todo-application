@@ -9,9 +9,19 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,17 +57,24 @@ class TodoListItemControllerTest {
     }
 
     @Test
-    void getTodoListItems_returnsTodoListItems() throws Exception {
+    void getTodoListItems_returnsAllTodoListItems() throws Exception {
 
         GetTodoListItemsDto items = new GetTodoListItemsDto();
+
         List<TodoListItemDto> testItemsList = new ArrayList<TodoListItemDto>();
         TodoListItemDto todoListItemDto = new TodoListItemDto(1L, "ABC");
         testItemsList.add(todoListItemDto);
+
+
         items.setItems(testItemsList);
+
         given(todoListItemService.getTodoListItems()).willReturn(items);
+
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/todo-list-items"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("items").value(testItemsList));
+                .andExpect(jsonPath("items", hasSize(1))).andDo(print());
+
+
     }
 
     @Test
@@ -66,5 +83,7 @@ class TodoListItemControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/todo-list-items/1"))
                 .andExpect(status().isNotFound());
     }
+
+
 
 }

@@ -21,15 +21,15 @@ public class TodoListItemController {
     public TodoListItemController(TodoListItemService todoListItemService) {
         this.todoListItemService = todoListItemService;
     }
-
+    @GetMapping()
+    GetTodoListItemsDto getTodoListItemsDto() {
+        return todoListItemService.getTodoListItems();
+    }
     @GetMapping("/{todoListItemId}")
     TodoListItemDto getTodoListItem(@PathVariable Long todoListItemId) {
         return todoListItemService.getTodoListItem(todoListItemId);
     }
 
-    @GetMapping("/")
-    GetTodoListItemsDto getTodoListItemsDto() {
-        return todoListItemService.getTodoListItems();
-    }
+
 
 }

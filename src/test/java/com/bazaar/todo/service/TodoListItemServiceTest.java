@@ -1,5 +1,6 @@
 package com.bazaar.todo.service;
 
+import com.bazaar.todo.dto.GetTodoListItemsDto;
 import com.bazaar.todo.dto.TodoListItemDto;
 import com.bazaar.todo.entity.TodoListItem;
 import com.bazaar.todo.exceptions.TodoListItemNotFoundException;
@@ -15,6 +16,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -48,5 +51,18 @@ public class TodoListItemServiceTest {
         catch (Exception ex) {
             assertThat(ex.getClass()).isEqualTo(TodoListItemNotFoundException.class);
         }
+    }
+
+    @Test
+    void getAllTodoListItems_returnAllTodoListItems(){
+        //assign
+        List<TodoListItem> todoListItems= new ArrayList<TodoListItem>();
+        todoListItems.add(new TodoListItem(1L, "ABC"));
+        given(todoListItemRepository.findAll()).willReturn((todoListItems));
+
+        //act and assert
+        GetTodoListItemsDto getTodoListItemsDto =todoListItemService.getTodoListItems();
+        assertThat(getTodoListItemsDto.getItems().size()).isEqualTo(1);
+        assertThat(getTodoListItemsDto.getItems().get(0).getTitle()).isEqualTo("ABC");
     }
 }
