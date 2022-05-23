@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,9 +29,13 @@ class TodoListItemControllerTest {
 
     @Test
     void getTodoListItem() throws Exception {
+        //arrange
 
-            TodoListItemDto todoListItemDto = new TodoListItemDto(1,"ABC");
-        given(todoListItemService.getTodoListItem(anyInt())).willReturn(todoListItemDto);
+            TodoListItemDto todoListItemDto = new TodoListItemDto(1L,"ABC");
+
+        given(todoListItemService.getTodoListItem(anyLong())).willReturn(todoListItemDto);
+
+        //act and assert
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/todo-list-items/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").value(1))
@@ -39,7 +44,7 @@ class TodoListItemControllerTest {
 
     @Test
     void getTodoListItem_notFound() throws Exception {
-        given(todoListItemService.getTodoListItem(anyInt())).willThrow(new TodoListItemNotFoundException());
+        given(todoListItemService.getTodoListItem(anyLong())).willThrow(new TodoListItemNotFoundException());
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/todo-list-items/1"))
                 .andExpect(status().isNotFound());
     }

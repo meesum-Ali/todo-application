@@ -1,10 +1,6 @@
 package com.bazaar.todo.repository;
 
-import com.bazaar.todo.dto.TodoListItemDto;
+import com.bazaar.todo.entity.TodoListItem;
+import org.springframework.data.repository.CrudRepository;
 
-public class TodoListItemRepository {
-
-    public TodoListItemDto findById(int i) {
-        return null;
-    }
-}
+public interface TodoListItemRepository extends CrudRepository<TodoListItem, Long> { }
