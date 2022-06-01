@@ -1,5 +1,7 @@
 package com.bazaar.todo;
 
+import com.bazaar.todo.dto.CreateTodoListItemRequestDto;
+import com.bazaar.todo.dto.CreateTodoListItemResponseDto;
 import com.bazaar.todo.dto.GetTodoListItemsDto;
 import com.bazaar.todo.dto.TodoListItemDto;
 import org.assertj.core.api.Assertions;
@@ -36,6 +38,14 @@ public class IntegrationTest {
 
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(response.getBody().getItems().size()).isGreaterThan(0);
+    }
+
+    @Test
+    public void createTodoListItem(){
+        CreateTodoListItemRequestDto requestBody = new CreateTodoListItemRequestDto("New Todo");
+        ResponseEntity<CreateTodoListItemResponseDto> response = restTemplate.postForEntity("/v1/todo-list-items",requestBody,CreateTodoListItemResponseDto.class);
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(response.getBody().getResponse()).isEqualTo("New Todo Inserted");
     }
 
     @Test

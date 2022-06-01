@@ -1,7 +1,10 @@
 package com.bazaar.todo.controller;
 
+import com.bazaar.todo.dto.CreateTodoListItemRequestDto;
+import com.bazaar.todo.dto.CreateTodoListItemResponseDto;
 import com.bazaar.todo.dto.GetTodoListItemsDto;
 import com.bazaar.todo.dto.TodoListItemDto;
+import com.bazaar.todo.entity.TodoListItem;
 import com.bazaar.todo.exceptions.TodoListItemNotFoundException;
 import com.bazaar.todo.service.TodoListItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,14 @@ public class TodoListItemController {
     TodoListItemDto getTodoListItem(@PathVariable Long todoListItemId) {
         return todoListItemService.getTodoListItem(todoListItemId);
     }
+
+
+    @PostMapping
+    TodoListItemDto createTodoListItem(@RequestBody CreateTodoListItemRequestDto body){
+        return todoListItemService.createTodoListItems(body);
+
+    }
+
 
 
 
